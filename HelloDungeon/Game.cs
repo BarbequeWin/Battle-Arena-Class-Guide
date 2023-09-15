@@ -30,14 +30,14 @@ namespace HelloDungeon
         float monster1Damage = 246.90f;
         float monster1Defense = 0.9f;
         float monster1Stamina = 3f;
-       
+
 
         string monster2Name = "JOHN.....cena";
         float monster2Health = 2120f;
         float monster2Damage = 246.91f;
         float monster2Defense = 1f;
         float monster2Stamina = 4f;
-        
+
 
         string monster3Name = "Lucy Jill DirtBag Biden";
         float monster3Health = 2118f;
@@ -118,7 +118,7 @@ namespace HelloDungeon
         float Heal(Character monster, float Heal)
         {
             float NewHealth = Heal + monster.Health;
-            
+
             return NewHealth;
         }
 
@@ -151,7 +151,7 @@ namespace HelloDungeon
                 currentScene = 2;
                 return;
             }
-            
+
             Console.WriteLine(monster2.Name + " punches " + Player.Name + "!");
             Player.Health = Attack(monster2, Player);
             Console.ReadKey(true);
@@ -164,18 +164,18 @@ namespace HelloDungeon
 
         void BattleScene()
         {
-            
+
             Fight(ref JohnCena);
-            
+
             Console.Clear();
 
             if (Player.Health <= 0 || JohnCena.Health <= 0)
             {
                 currentScene = 2;
             }
-            
+
         }
-        
+
         void WinResultsScene()
         {
             if (Player.Health > 0 && JohnCena.Health <= 0)
@@ -247,8 +247,17 @@ namespace HelloDungeon
             Console.WriteLine("Thanks for playing");
         }
 
-        public void Run()
+        void CountNumber()
         {
+            int[] numbers = new int[1] { 6 };
+        }
+                
+        
+
+        public void Run()
+        {  
+
+            CountNumber();
             //start - called before the first loop
             Start();
 
