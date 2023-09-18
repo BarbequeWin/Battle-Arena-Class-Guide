@@ -51,6 +51,8 @@ namespace HelloDungeon
         Character JoePable;
         Character JohnCena;
         Character LucyJill;
+        Character[] Enemies;
+        int currentEnemyIndex = 0;
 
         Character Player;
         void PrintStats(Character monster)
@@ -132,7 +134,7 @@ namespace HelloDungeon
 
             if (battleChoice == "1")
             {
-                monster2.Health = Attack(Player, monster2);
+                monster2.Health = 0;
                 Console.WriteLine("You used " + Player.CurrentWeapon.Name + "!");
 
                 if (monster2.Health <= 0)
@@ -165,11 +167,11 @@ namespace HelloDungeon
         void BattleScene()
         {
 
-            Fight(ref JohnCena);
+            Fight(ref Enemies[currentEnemyIndex]);
 
             Console.Clear();
 
-            if (Player.Health <= 0 || JohnCena.Health <= 0)
+            if (Player.Health <= 0 || Enemies[currentEnemyIndex].Health <= 0)
             {
                 currentScene = 2;
             }
@@ -178,13 +180,37 @@ namespace HelloDungeon
 
         void WinResultsScene()
         {
-            if (Player.Health > 0 && JohnCena.Health <= 0)
+            if (Player.Health > 0 && Enemies[currentEnemyIndex].Health <= 0)
             {
                 Console.WriteLine("The winner is: " + Player.Name);
+                currentScene = 1;
+                currentEnemyIndex++;
+
+                if (currentEnemyIndex >= Enemies.Length)
+                {
+                    gameOver = true;
+                }
             }
-            else if (JohnCena.Health > 0 && Player.Health <= 0)
+            else if (Enemies[currentEnemyIndex].Health > 0 && Player.Health <= 0)
             {
-                Console.WriteLine("The winner is: " + JohnCena.Name);
+                Console.WriteLine("The winner is: " + Enemies[currentEnemyIndex].Name);
+                currentScene = 3;
+            }
+            Console.ReadKey(true);
+            Console.Clear();
+        }
+
+        void EndGameScene()
+        {
+            string playerChoice = GetInput("You Died. Play Again?", "Yes", "No", "");
+
+            if (playerChoice == "1")
+            {
+                currentScene = 0;
+            }
+            else if (playerChoice == "2")
+            {
+                gameOver = true;
             }
         }
 
@@ -222,6 +248,8 @@ namespace HelloDungeon
             LucyJill.Defense = 0.8f;
             LucyJill.Stamina = 0f;
             JoePable.CurrentWeapon = bidenBlast;
+
+            Enemies = new Character[3] {JoePable, JohnCena, LucyJill};
         }
 
         void Update()
@@ -238,6 +266,10 @@ namespace HelloDungeon
             {
                 WinResultsScene();
             }
+            else if (currentScene == 3)
+            {
+                EndGameScene();
+            }
             Console.ReadKey(true);
             Console.Clear();
         }
@@ -247,17 +279,36 @@ namespace HelloDungeon
             Console.WriteLine("Thanks for playing");
         }
 
-        void CountNumber()
+        void PrintSum(int[] numbers)
         {
-            int[] numbers = new int[1] { 6 };
+            int sum = 0;
+
+            for (int i = 0; i < numbers.Length; i++)
+            {
+                sum += numbers[i];
+            }
+            Console.WriteLine(sum);
         }
                 
-        
+        void PrintLargest(int[] numbers)
+        {
+            int biggestNumber = numbers[0];
+
+            for (int i = 0; i < numbers.Length; i++)
+            {
+                if (numbers[i] > biggestNumber)
+                {
+                    biggestNumber = numbers[i];
+                }
+            }
+            Console.WriteLine(biggestNumber);
+        }
 
         public void Run()
-        {  
+        {
+            int[] numbers = new int[5] { 5, 10, 15, 20, 25 };
+            PrintSum(numbers);
 
-            CountNumber();
             //start - called before the first loop
             Start();
 
